@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FileUploader.Services;
 using static FileUploader.Utils.Tools;
-using FileUPloader.Controllers;
 
 namespace FileUploader.Controllers;
 
