@@ -44,4 +44,46 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Home");
         return View(model: viewModel);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewDto login)
+    {
+
+        if (!ModelState.IsValid) return View(model: login);
+
+
+        User user = await _userRepository.GetByEmailAsync(login.UserModel.Email);
+
+        if (user == null)
+        {
+            ModelState.AddModelError("Email", "There is no user with this credentials");
+            return View(model: login);
+        }
+
+        if (!user.IsVerified)
+        {
+            ModelState.AddModelError("Email", "You should confirm your account.");
+            return View(model: login);
+        }
+
+        if (BCrypt.Net.BCrypt.Verify(login.UserModel.Password, user.Password))
+        {
+            ViewData["Message"] = "Login Success";
+            var claims = new List<Claim>{
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Email),
+        };
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            var properties = new AuthenticationProperties { IsPersistent = true };
+            await HttpContext.SignInAsync(principal, properties);
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            ViewData["Message"] = "Incorrect Credentials";
+            return View(login);
+        }
+
+    }
 }
