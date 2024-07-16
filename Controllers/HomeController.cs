@@ -63,6 +63,41 @@ public class HomeController : Controller
         return View(viewModel);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Upload(IFormFile file)
+    {
+        if (await _userRepository.HasFile(User.Identity!.Name!, file.FileName))
+        {
+            Console.WriteLine("File is already existed");
+            return RedirectToAction("Index", "Home");
+        }
+        bool result = await _awsS3Services.UploadFile(file, User.Identity!.Name!);
+        var fileEntity = new Models.File
+        {
+            Name = file.FileName,
+            ContentType = file.ContentType,
+            UploadDate = DateTime.UtcNow,
+            Size = file.Length
+        };
+        await _userRepository.AddFileToUserAsync(User.Identity!.Name!, fileEntity);
+
+        return RedirectToAction("Index", "Home");
+    }
+
+
+
+
+    [HttpGet("[action]/{fileName}")]
+    public async Task<IActionResult> Download(string fileName)
+    {
+        if (await _userRepository.HasFile(User.Identity!.Name, fileName))
+        {
+            string url = await _awsS3Services.GeneratePreSignedURLAsync(fileName, User.Identity!.Name!);
+            return Redirect(url);
+        }
+        return NotFound();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
