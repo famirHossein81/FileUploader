@@ -86,4 +86,46 @@ public class AccountController : Controller
         }
 
     }
+
+     [HttpGet]
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterDto registerDto)
+    {
+        if (!ModelState.IsValid)
+            return View(model: registerDto);
+
+        if (await _userRepository.IsExistedByEmail(registerDto.Email))
+        {
+            return Content("This Email is existed");
+        }
+        var user = new User
+        {
+            Email = registerDto.Email,
+            Password = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+
+        };
+
+        await _userRepository.AddAsync(user);
+        SuccessfullRegisterDto srd = new()
+        {
+            Email = user.Email,
+            VerificationUrl = Url.UrlGenerator("Validate", "Account", new { token = user.VerificationToken })
+        };
+
+        MailRequest verificationEmail = new()
+        {
+            ToEmail = registerDto.Email,
+            Body = await _viewRenderService.RenderToStringAsync("_ActiveEmail", srd),
+            Subject = "Activation"
+        };
+        await _emailSender.SendEmailAsync(verificationEmail);
+        return RedirectToAction(nameof(Index));
+    }
+
 }
