@@ -160,4 +160,29 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Login));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> ResetPassword(string token)
+    {
+        User user = await _userRepository.GetUserByActiveCode(token);
+        if (user == null) return NotFound();
+        return View(new ResetPasswordDto { Token = token });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPassword)
+    {
+        Console.WriteLine("Salam RestPassword");
+        //if (!ModelState.IsValid) return View(resetPassword);]
+        Console.WriteLine(resetPassword.Token);
+        User user = await _userRepository.GetUserByActiveCode(resetPassword.Token);
+        
+        if (user == null) return NotFound();
+
+        string hashNewPassword = BCrypt.Net.BCrypt.HashPassword(resetPassword.Password);
+        user.Password = hashNewPassword;
+        user.VerificationToken = TokenGenerator();
+        await _userRepository.Update(user);
+        return RedirectToAction(nameof(Index));
+    }
+
 }
