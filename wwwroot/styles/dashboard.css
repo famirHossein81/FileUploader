@@ -1,0 +1,247 @@
+body {
+  background-image: url(../imgs/dark-mosaic.png);
+  background-color: var(--bgcolor);
+  overflow-y: scroll;
+}
+
+#body {
+  overflow: hidden;
+}
+
+main {
+  position: relative;
+  padding: 120px 1rem 50px;
+  box-sizing: border-box;
+}
+
+main > img {
+  position: absolute;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  &:nth-child(1) {
+    top: 150px;
+    left: 30%;
+    width: clamp(200px, 25vw, 250px);
+  }
+  &:nth-child(2) {
+    top: 400px;
+    left: -10%;
+    rotate: 119.75deg;
+    width: 150px;
+  }
+  &:nth-child(3) {
+    top: 400px;
+    left: 90%;
+    width: clamp(300px, 35vw, 400px);
+  }
+  &:nth-child(4) {
+    top: 1000px;
+    left: 95%;
+    width: clamp(200px, 25vw, 250px);
+  }
+  &:nth-child(5) {
+    top: 1500px;
+    left: 50%;
+    width: 500px;
+  }
+  &:nth-child(6) {
+    top: 850px;
+    left: 0%;
+    width: 300px;
+  }
+  &:nth-child(7) {
+    top: 700px;
+    left: 60%;
+    width: 150px;
+  }
+}
+
+#search_bar {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ffffff;
+  background-color: var(--bgcolor);
+}
+
+#share_dashboard {
+  position: relative;
+  color: #000000;
+  background-color: #ffffff;
+  width: 40px;
+  height: 2.75rem;
+  white-space: nowrap;
+  text-decoration: none;
+  padding-left: 1rem;
+  overflow: hidden;
+  line-height: 1rem;
+  overflow: hidden;
+  transition: 0.5s;
+  clip-path: polygon(
+    1.25rem 0%,
+    0% 25%,
+    0% 75%,
+    1.25rem 100%,
+    calc(100% - 1.25rem) 100%,
+    100% 75%,
+    100% 25%,
+    calc(100% - 1.25rem) 0%
+  );
+  border: none;
+  &:hover {
+    width: 10.5rem;
+  }
+}
+
+#share_dashboard > img {
+  position: absolute;
+  right: 0;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border-radius: 2rem;
+  clip-path: polygon(50% 0%, 0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%);
+}
+
+#search_form > button {
+  height: 40px;
+  aspect-ratio: 1 / 1;
+  border: 0;
+  background-color: var(--second);
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px 0px var(--second);
+  transition: .5s;
+  &:hover {
+    box-shadow: 0px 0px 10px 0px var(--second);
+  }
+}
+
+#search_form > input {
+  height: 40px;
+  border: 0;
+  border-radius: 0 8px 8px 0;
+  width: clamp(12rem, 50vw, 15rem);
+  padding-left: 8px;
+  border-left: 1px solid #000000;
+  /* clip-path: polygon(0% 0%, 0% 25%, 0% 75%, 0% 100%, calc(100% - 1.25rem) 100%, 100% 75%, 100% 25%, calc(100% - 1.25rem) 0%); */
+}
+
+#table_container {
+  overflow-x: auto;
+  background-color: var(--bgcolor);
+}
+
+#files_table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  border-spacing: 0;
+}
+
+#files_table tr {
+  border: 1px solid #ffffff;
+  border-top: 0;
+}
+
+#files_table > thead {
+  background-color: var(--second-opa);
+}
+
+#files_table > thead > tr > th {
+  padding: 1rem;
+  text-align: start;
+  white-space: nowrap;
+  font-variant: small-caps;
+}
+
+#files_table > tbody > tr {
+  padding-inline: 1rem;
+}
+
+#files_table > tbody > tr:nth-child(even) {
+  background-color: var(--second-opa);
+}
+
+#files_table > tbody > tr > td {
+  padding: 1rem;
+  font-size: 14px;
+  white-space: nowrap;
+  &:last-child {
+    text-align: end;
+    & > * {
+      cursor: pointer;
+    }
+  }
+}
+
+/* #region edit_info */
+
+#edit_info {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #00000077;
+}
+
+#edit_info > form {
+  position: relative;
+  box-sizing: border-box;
+  background-image: url(../imgs/dark-mosaic.png);
+  background-color: var(--bgcolor);
+  padding: 2rem 1rem;
+  width: clamp(15rem, 80%, 25rem);
+  border: 1px solid #ffffff;
+  z-index: 10;
+}
+
+#edit_info > form > img {
+  cursor: pointer;
+  position: absolute;
+  right: .5rem;
+  top: .5rem;
+}
+
+#edit_info > form > h2 {
+  margin-top: 0;
+}
+
+#edit_info > form > label {
+  margin-bottom: 1rem;
+}
+
+#edit_info input {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: .5rem;
+  color: #ffffff;
+  border: 1px solid #ffffff55;
+  height: 2.7rem;
+  margin-bottom: 1rem;
+}
+
+#edit_info > form > label > input {
+  background-color: #00000077;
+  outline: none;
+  padding-inline: .5rem;
+}
+
+#edit_info > form > input {
+  cursor: pointer;
+  background-color: #4a1671bb;
+  letter-spacing: 2px;
+  font-variant: small-caps;
+  transition: .5s;
+  margin-bottom: 0;
+  &:hover {
+    background-color: var(--second);
+  }
+}
+
+/* #endregion edit_info */
+
+/* #region res */
+
+
+/* #endregion res */
