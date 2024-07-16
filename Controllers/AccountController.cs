@@ -128,4 +128,36 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword(LoginViewDto login)
+    {
+        if (!ModelState.IsValid)
+            return View();
+
+        User user = await _userRepository.GetByEmailAsync(login.ForgotPasswordModel.Email);
+        if (user == null)
+        {
+            ModelState.AddModelError("Email", "This user does not exist.");
+            return View();
+        }
+
+        ForgotPasswordDto fpd = new()
+        {
+            Email = user.Email,
+            ResetLink = Url.UrlGenerator("ResetPassword", "Account", new { token = user.VerificationToken })
+        };
+
+        MailRequest resetEmail = new()
+        {
+            ToEmail = login.ForgotPasswordModel.Email,
+            Body = await _viewRenderService.RenderToStringAsync("_ForgotPassword", fpd),
+            Subject = "ResetPassword"
+        };
+        await _emailSender.SendEmailAsync(resetEmail);
+
+        ViewBag.IsSuccess = true;
+        return RedirectToAction(nameof(Login));
+    }
+
 }
