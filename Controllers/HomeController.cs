@@ -103,4 +103,34 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+
+    
+    [HttpGet("[action]/{fileName}")]
+    public async Task<IActionResult> Remove(string fileName)
+    {
+        if (await _userRepository.HasFile(User.Identity!.Name, fileName))
+        {
+            await _fileRepository.RemoveAsync(fileName, User.Identity!.Name!);
+            await _awsS3Services.Remove(fileName, User.Identity!.Name!);
+            return RedirectToAction("Index", "Home");
+        }
+        return NotFound();
+    }
+
+    [HttpGet("[action]/{email}/{token}")]
+    public async Task<IActionResult> Share(string email, string token)
+    {
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+            return NotFound();
+
+        string fileName = await _fileRepository.GetNameByToken(token);
+
+        if (string.IsNullOrEmpty(fileName))
+            return NotFound();
+
+        string url = await _awsS3Services.GeneratePreSignedURLAsync(fileName, email);
+
+        return Redirect(url);
+    }
 }
