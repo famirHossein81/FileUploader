@@ -133,4 +133,11 @@ public class HomeController : Controller
 
         return Redirect(url);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> EditInfo(HomeViewDto homeViewDto)
+    {
+        await _userRepository.ChangePasswordAsync(User.Identity!.Name!, homeViewDto.EditInfoModel.Password);
+        return RedirectToAction(nameof(Index));
+    }
 }
