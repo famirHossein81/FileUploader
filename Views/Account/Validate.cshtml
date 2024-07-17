@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Activation";
+}
+
+<nav aria-label="breadcrumb">
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Account Activation</li>
+    </ul>
+</nav>
+
+<div class="container">
+    @if (ViewBag.IsActive)
+    {
+        <div class="alert alert-success">
+            <p>Your Account Activated Successfully.</p>
+            <p>
+                <a asp-controller="Account" asp-action="Login">Login</a>
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <p>The activation link is corrupt</p>
+        </div>
+    }
+</div>
