@@ -1,0 +1,80 @@
+@model FileUploader.Models.Dt.LoginViewDto;
+@{
+  Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FilesUp-SignIn</title>
+  <link rel="stylesheet" href="~/styles/style.css" />
+  <link rel="stylesheet" href="~/styles/sign.css" />
+</head>
+
+<body class="flex">
+  <div id="container" class="flex justify_center">
+    @* <a id="return_home" class="flex align_center" href="index.html">Home <img src="~/svg/arrow-left.svg" alt=""></a>
+    *@
+    <main id="sign_form">
+      <div class="flex flex_center flex_column">
+        <img id="form_bg" src="~/imgs/Frame 2.png" />
+        <h2>FilesUp</h2>
+        <h1>LogIn</h1>
+        <form asp-action="Login" method="post">
+          <label for="email">Email:<br />
+            <input asp-for="UserModel.Email" type="email" id="email" placeholder="Enter your email..." required
+              autocomplete="email" />
+          </label>
+          <label for="password">Password:<br />
+            <input asp-for="UserModel.Password" type="password" id="password" placeholder="Enter your password..."
+              required />\
+          </label>
+          <div class="flex font_14">
+            <input id="show_pass" type="checkbox" onclick="showPass()" />Show Password
+          </div>
+          <button id="login_submit" type="submit">submit</button>
+          <span class="font_14">don't have an account? <a asp-asp-controller="Account"
+              asp-action="Register">SignUp</a></span>
+          <br>
+          <span class="font_14">Forgot your password? <a href="#forgot_password" onclick="forgotPass()">reset
+              password</a></span>
+        </form>
+      </div>
+    </main>
+    <div id="diagonal"></div>
+    <aside id="sign_aside">
+      <div class="flex flex_center flex_column">
+        <img class="quote" src="~/svg/quotation-mark-svgrepo-com.svg" />
+        <h2>FilesUp</h2>
+        <p id="login_tips"></p>
+        <img class="quote" src="~/svg/quotation-right-mark-svgrepo-com.svg" />
+      </div>
+    </aside>
+  </div>
+  <div id="forgot_pass_bg" style="display: none;">
+    <form id="forgot_pass" asp-action="ForgotPassword" asp-controller="Account" method="post">
+      <img onclick="forgotPass()" src="~/svg/remove.svg" alt="remove">
+      <h2>Reset Password</h2>
+      <label>
+        Email:
+        <br>
+        <input asp-for="ForgotPasswordModel.Email" type="email" placeholder="Enter your email...">
+      </label>
+      <br>
+      <input type="submit">
+    </form>
+  </div>
+</body>
+<script src="~/scripts/showPass.js"></script>
+<script src="~/scripts/loginTips.js"></script>
+
+</html>
+
+@section Scripts {
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+}
