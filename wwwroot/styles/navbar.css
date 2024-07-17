@@ -1,0 +1,239 @@
+/* #region header */
+
+#navbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  z-index: 3;
+  box-shadow: 0px 5px 10px 2px #777 inset;
+}
+
+.logo {
+  position: relative;
+  color: #000000;
+}
+
+.logo > img {
+  position: absolute;
+  z-index: -1;
+  transition: 1s;
+  &:nth-child(1) {
+    width: 20px;
+    left: -20px;
+    top: 5px;
+  }
+  &:nth-child(2) {
+    width: 25px;
+    left: 60px;
+    top: 30px;
+  }
+  &:nth-child(3) {
+    width: 30px;
+    left: 120px;
+    top: -15px;
+  }
+}
+
+.logo:hover > img {
+  &:nth-child(1) {
+    width: 20px;
+    left: 46px;
+    top: 14px;
+  }
+  &:nth-child(2) {
+    width: 25px;
+    left: 53px;
+    top: 29px;
+  }
+  &:nth-child(3) {
+    width: 30px;
+    left: 63px;
+    top: 6px;
+  }
+}
+
+.logo > span {
+  font-family: "editby";
+  font-size: 48px;
+}
+
+#nav_right > a:not(.main_btn) {
+  margin-right: 1rem;
+  color: #000000;
+}
+
+#dash_nav_right {
+  position: relative;
+  color: #000000;
+  padding: .2rem .5rem;
+  box-shadow: 0px 0px 2px #000000 inset;
+  &:hover > #dash_dropdown {
+    height: auto;
+  }
+}
+
+#dash_nav_right > img {
+  rotate: 90deg;
+}
+
+#dash_dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  height: 0;
+  overflow: hidden;
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  transition: .5s;
+  filter: drop-shadow(0px 0px 5px var(--second));
+}
+
+#dash_dropdown > li {
+  display: flex;
+  box-sizing: border-box;
+  width: 90%;
+  justify-content: end;
+  font-size: 14px;
+  gap: .5rem;
+  line-height: 3rem;
+  padding-inline: 1rem;
+  cursor: pointer;
+  background-color: var(--second-opa);
+  color: #ffffff;
+  margin-bottom: 1rem;
+  opacity: 0;
+  margin-left: 6rem;
+  transition: 1s;
+  clip-path: polygon(
+    1.25rem 0%,
+    0% 25%,
+    0% 75%,
+    1.25rem 100%,
+    calc(100% - 1.25rem) 100%,
+    100% 75%,
+    100% 25%,
+    calc(100% - 1.25rem) 0%
+  );
+  &:first-child {
+    transition: .5s;
+    margin-top: 1rem;
+    margin-left: 4rem;
+  }
+  &:hover {
+    gap: 1rem;
+    background-color: var(--second);
+  }
+}
+
+#dash_nav_right:hover > ul > li {
+  opacity: 1;
+  &:first-child {
+    margin-left: 1.5rem;
+  }
+  &:last-child {
+    margin-left: 0;
+  }
+}
+
+#user_info {
+  margin-inline: .5rem;
+  max-width: 10rem;
+  & > span:first-child {
+    align-self: flex-end;
+  }
+  & > span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+#user_pic {
+  background-image: url(../imgs/young\ girl\ \(3\).jpeg);
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  width: 3rem;
+  aspect-ratio: 1 / 1;
+}
+
+  #hamburger {
+    display: none;
+    cursor: pointer;
+  }
+
+  #res_nav {
+    position: fixed;
+    justify-content: space-between;
+    padding-block: 5rem 7rem;
+    box-sizing: border-box;
+    top: -100lvh;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: var(--main);
+    gap: 2rem;
+    transition: 1s;
+  }
+
+  #res_nav > a:not(.login,.main_btn) {
+    font-size: 20px;
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff00;
+    transition: 0.5s;
+    &:hover:not(.logo) {
+      border-color: #ffffff;
+      opacity: 1;
+    }
+    &.active:not(.logo) {
+      border-color: #ffffff;
+    }
+  }
+
+  #res_nav > a.login {
+    color: #000000;
+    font-size: 18px;
+  }
+
+  #res_nav > img {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  #res_nav > button {
+  font-family: "OpenSans";
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 0;
+    gap: .5rem;
+    cursor: pointer;
+  }
+
+/* #endregion header */
+
+/* #region res */
+
+@media (max-width: 767px) {
+  #nav_right {
+    display: none;
+  }
+
+  #hamburger {
+    display: block;
+  }
+
+  #dash_nav_right {
+    display: none;
+  }
+}
+
+/* #endregion res */

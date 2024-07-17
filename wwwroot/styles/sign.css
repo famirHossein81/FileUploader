@@ -1,0 +1,334 @@
+/* #region global */
+
+body {
+  height: 100vh;
+}
+
+#container {
+  position: relative;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+#container > *:not(#return_home) {
+  transform: skewX(-10deg);
+}
+
+#diagonal {
+  min-width: 5vw;
+  z-index: 2;
+  box-shadow: 1vw -4px 1vw 4px #14141488;
+}
+
+#return_home {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #000000;
+  background-color: #ffffff;
+  width: 2rem;
+  height: 2.75rem;
+  white-space: nowrap;
+  text-decoration: none;
+  padding-left: 0.5rem;
+  line-height: 1rem;
+  overflow: hidden;
+  transition: 0.5s;
+  z-index: 1;
+  clip-path: polygon(
+    1.25rem 0%,
+    0% 25%,
+    0% 75%,
+    1.25rem 100%,
+    calc(100% - 1.25rem) 100%,
+    100% 75%,
+    100% 25%,
+    calc(100% - 1.25rem) 0%
+  );
+  &:hover {
+    width: 5.5rem;
+  }
+}
+
+#return_home > img {
+  position: absolute;
+  right: 0;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border-radius: 2rem;
+  clip-path: polygon(50% 0%, 0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%);
+}
+
+/* #endregion global */
+
+/* #region form */
+
+#sign_form > div > #form_bg {
+  position: absolute;
+  z-index: -1;
+  width: 20rem;
+  user-select: none;
+  top: calc(50% - 30px);
+  left: calc(50% - 40px);
+  rotate: -10deg;
+  transform: translate(-50%, -50%);
+}
+
+#sign_form {
+  position: relative;
+  min-width: 60vw;
+  height: 100vh;
+  background-image: url(../imgs/dark-mosaic.png);
+  background-color: var(--bgcolor);
+  box-shadow: 1vw -4px 1vw 4px #14141488;
+  overflow: hidden;
+}
+
+#sign_form > div {
+  position: relative;
+  width: 37.5vw;
+  height: 100vh;
+  right: 20px;
+  transform: skewX(10deg);
+  float: right;
+}
+
+#sign_form > div > h2 {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  font-family: "editby";
+  font-size: 40px;
+  font-weight: 300;
+  margin-block: 1rem;
+  font-variant: small-caps;
+}
+
+#sign_form > div > h1 {
+  font-size: 48px;
+  margin-block: 1rem;
+}
+
+#sign_form > div > form {
+  width: clamp(15rem, 70%, 20rem);
+}
+
+#sign_form > div > form a {
+  color: #ffffff;
+  font-style: italic;
+}
+
+#sign_form > div > form > label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+#sign_form > div > form > label > input {
+  width: 100%;
+  height: 2.5rem;
+  border: 1px solid #ffffff55;
+  background-color: #00000077;
+  color: #ffffff;
+  padding-inline: 0.5rem;
+  margin-top: 0.5rem;
+  box-sizing: border-box;
+}
+
+#sign_form > div > form > div > input {
+  margin-bottom: 0.5rem;
+}
+
+#sign_form > div > form > div > a {
+  margin-left: 0.3rem;
+}
+
+#sign_form > div > form > button {
+  width: 100%;
+  height: 2.7rem;
+  background-color: #4a1671bb;
+  color: #ffffff;
+  border: 1px solid #ffffff55;
+  cursor: pointer;
+  transition: 0.5s;
+  margin-block: 0.5rem;
+  letter-spacing: 2px;
+  font-variant: small-caps;
+}
+
+#sign_form > div > form > button:hover {
+  background-color: var(--second);
+}
+
+#sign_form > div > form > button:disabled {
+  background-color: #ffffff55;
+  cursor: default;
+}
+
+#sign_form > div > form > span:last-child > button {
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  text-decoration: underline;
+  font-style: italic;
+}
+
+/* #endregion form */
+
+/* #region aside */
+
+#sign_aside {
+  min-width: 80vw;
+  height: 100vh;
+  background-image: url(../imgs/dark-mosaic.png),
+    linear-gradient(315deg, var(--main) 20%, var(--second) 100%);
+}
+
+#sign_aside > div {
+  width: 57.5vw;
+  height: 100vh;
+  transform: skewX(10deg);
+}
+
+#login_tips {
+  max-width: 450px;
+  text-align: center;
+  line-height: 3rem;
+}
+
+#sign_aside > div > .quote {
+  position: relative;
+  &:first-child {
+    right: 10rem;
+    top: 2rem;
+  }
+  &:last-child {
+    left: 12rem;
+    bottom: 1rem;
+  }
+}
+
+#sign_aside > div > h2 {
+  font-family: "editby";
+  font-size: 54px;
+  font-weight: 300;
+  margin-block: 1rem;
+  font-variant: small-caps;
+}
+
+#sign_aside > div > p {
+  font-size: clamp(16px, 2vw, 18px);
+  text-transform: capitalize;
+}
+
+/* #endregion aside */
+
+/* #region forgot_pass */
+
+#forgot_pass_bg {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: #00000077;
+}
+
+#forgot_pass {
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url(../imgs/dark-mosaic.png);
+  background-color: var(--bgcolor);
+  padding: 2rem 1rem;
+  width: clamp(15rem, 80%, 25rem);
+  border: 1px solid #ffffff;
+  z-index: 10;
+}
+
+#forgot_pass > img {
+  cursor: pointer;
+  position: absolute;
+  right: .5rem;
+  top: .5rem;
+}
+
+#forgot_pass > h2 {
+  margin-top: 0;
+}
+
+#forgot_pass input {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 1rem;
+  color: #ffffff;
+  border: 1px solid #ffffff55;
+  height: 2.7rem;
+}
+
+#forgot_pass > label > input {
+  background-color: #00000077;
+  outline: none;
+  padding-inline: .5rem;
+}
+
+#forgot_pass > input {
+  cursor: pointer;
+  background-color: #4a1671bb;
+  letter-spacing: 2px;
+  font-variant: small-caps;
+  transition: .5s;
+  &:hover {
+    background-color: var(--second);
+  }
+}
+
+/* #endregion forgot_pass */
+
+/* #region res */
+
+@media (max-width: 767px) {
+  #return_home {
+    left: 1rem;
+  }
+
+  #diagonal {
+    display: none;
+  }
+
+  #container {
+    flex-direction: column-reverse;
+  }
+
+  #container > *:not(#return_home){
+    transform: skewX(0);
+  }
+
+  #sign_form {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100vw;
+  }
+
+  #sign_form > div {
+    transform: skewX(0);
+    right: 0;
+    width: 100%;
+  }
+
+#sign_form > div > h2 {
+  display: block;
+}
+
+  #sign_form > div > form {
+    width: clamp(15rem, 80%, 25rem);
+  }
+
+  #sign_aside {
+    display: none;
+  }
+}
+
+/* #endregion res */
