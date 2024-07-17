@@ -1,63 +1,30 @@
 @{
-    ViewData["Title"] = "User Not Found";
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FilesUp | @ViewData["Title"]</title>
+    <title>FilesUp | User Not Found</title>
     <link rel="stylesheet" href="~/styles/style.css" />
     <link rel="stylesheet" href="~/styles/sign.css" />
-    <style>
-        .not-found-container {
-            text-align: center;
-            padding: 2rem;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .not-found-title {
-            color: #dc3545;
-            margin-bottom: 1rem;
-        }
-        .not-found-message {
-            margin-bottom: 2rem;
-        }
-        .not-found-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-        .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-    </style>
 </head>
+
 <body class="flex">
     <div id="container" class="flex justify_center">
-        <main id="sign_form">
-            <div class="not-found-container">
-                <h1 class="not-found-title">User Not Found</h1>
-                <p class="not-found-message">We couldn't find an account with the provided email address. Please check your email and try again.</p>
-                <div class="not-found-actions">
-                    <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Try Again</a>
-                </div>
+        <a asp-action="Login" asp-controller="Account" id="return_home" class="flex align_center">Home <img src="~/svg/arrow-left.svg" alt=""></a>
+        <main id="sign_form" class="user_not_found">
+            <div class="flex flex_center flex_column">
+                <img id="form_bg" src="~/imgs/Frame 2.png" />
+                <h2>FilesUp</h2>
+                <h1>User Not Found</h1>
+                <p>We're sorry, but the user you're looking for could not be found.</p>
+                <p>Please check the information you've entered and try again.</p>
             </div>
         </main>
     </div>
 </body>
+
 </html>
