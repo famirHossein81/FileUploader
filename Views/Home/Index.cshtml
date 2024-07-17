@@ -1,8 +1,176 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using static FileUploader.Utils.Tools;
+@using Microsoft.AspNetCore.Identity;
+@model FileUploader.Models.Dt.HomeViewDto;
+@{
+  var url = $"{Context.Request.Scheme}://{Context.Request.Host}";
 }
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FilesUp-Dashboard</title>
+  <link rel="stylesheet" href="~/styles/style.css" />
+  <link rel="stylesheet" href="~/styles/navbar.css" />
+  <link rel="stylesheet" href="~/styles/footer.css" />
+  <link rel="stylesheet" href="~/styles/upload.css" />
+  <link rel="stylesheet" href="~/styles/dashboard.css" />
+</head>
+
+<body>
+  <div id="body">
+    <header id="navbar" class="flex justify_center">
+      <nav class="flex align_center justify_between wfull max_width">
+        <a class="logo link" href="index.html">
+          <img src="~/svg/blue-hex.svg" />
+          <img src="~/svg/purpel-hex.svg" />
+          <img src="~/svg/gradient-hex.svg" />
+          <span>FilesUp</span>
+        </a>
+        <div id="dash_nav_right" class="flex align_center radius">
+          <img src="~/svg/direction-right 2-black.svg" alt="" />
+          <div id="user_info" class="flex flex_column">
+            @* <span class="font_14">User 123</span> *@
+            <span class="font_12">@User.Identity.Name</span>
+          </div>
+          <div id="user_pic"></div>
+          <ul id="dash_dropdown" class="radius">
+            <li onclick="editInfo()">Edit Info<img src="svg/edit-svgrepo-com.svg" alt="" /></li>
+            <li>
+              <a asp-action="Logout" asp-controller="Account" class="nav-link logout-link">
+                Logout<img src="~/svg/logout-svgrepo-com.svg" alt="" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div id="res_nav" class="flex align_center flex_column link">
+          <img src="~/svg/remove.svg" alt="back" onclick="navOut()">
+          <a class="link logo" href="index.html">
+            <img src="svg/purpel-hex.svg" />
+            <img src="svg/purpel-hex.svg" />
+            <img src="svg/gradient-hex.svg" />
+            <span>FilesUp</span>
+          </a>
+          <a class="active" href="#">home</a>
+          <a href="dashboard.html">dashboard</a>
+          <a href="#">contact us</a>
+          <a href="#">about us</a>
+          <a class="login radius" href="login.html">login</a>
+          <a class="main_btn" href="signup.html">signup</a>
+        </div>
+        <img id="hamburger" src="svg/hamburger-menu-svgrepo-com.svg" alt="menu" onclick="navIn()">
+      </nav>
+    </header>
+    <main class="max_width margin_auto">
+      <img src="svg/dash_blue.svg" />
+      <img src="svg/dash_purple.svg" />
+      <img src="svg/dash_solid_blue.svg" />
+      <img src="svg/dash_blue.svg" />
+      <img src="svg/dash_purple.svg" />
+      <img src="svg/dash_solid_blue.svg" />
+      <img src="svg/dash_solid_purple.svg" />
+      <form id="form-container" name="form-container" enctype="multipart/form-data" method="post" asp-controller="Home" asp-action="Upload">
+        <div class="upload-files-container flex_center flex_column">
+          <div class="drag-file-area flex_center flex_column">
+            <span class="material-icons-outlined upload-icon"> FilesUp </span>
+            <label class="label">
+              <span class="browse-files">
+                <input type="file" class="default-file-input" name="file" id="file-input" required />
+                <span class="browse-files-text">browse file</span>
+                <span>from device</span>
+              </span>
+            </label>
+          </div>
+          <span class="cannot-upload-message">
+            Please select a file first
+            <span class="material-icons-outlined cancel-alert-button">OK</span>
+          </span>
+          <div id="file_block">
+            <div class="file-info">
+              <span class="file-name"></span>
+              <span class="file-size"></span>
+            </div>
+            <span class="remove-file-icon flex_center"><img src="svg/trash.svg" alt="" /></span>
+            <div class="progress-bar"></div>
+          </div>
+          <button type="submit" class="upload-button main_btn link">
+            Upload
+          </button>
+        </div>
+      </form>
+      <div id="search_bar" class="flex justify_between align_center">
+        <form id="search_form" name="search_form" action="@Url.Action("Index", "Home")" method="get" class="flex">
+          <button type="submit" class="flex_center">
+            <img src="svg/search-Icon.svg" alt="search" />
+          </button>
+          <input id="search_form_input" name="search" type="search" placeholder="Search" />
+        </form>
+      </div>
+      <div id="table_container">
+        <table id="files_table">
+          <thead>
+            <tr>
+              <th>file name</th>
+              <th>size</th>
+              <th>date uploaded</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var file in Model.FileShowModel!.Files)
+            {
+            <tr>
+              <td><a id="download-link" href="@Url.Action("Download", "Home", new { fileName = file.Name })">
+                @file.Name
+              </a></td>
+              <td>@HumanReadableBytes(file.Size)</td>
+              <td><time datetime="@file.UploadDate.ToString("yyyy-MM-dd")">@file.UploadDate.ToString("MMM d, yyyy")</time></td>
+              <td>
+                <img src="svg/share-svgrepo-solid-white.svg" alt="share" title="share" id="share-icon" data-share-link="@(url + Url.Action("Share", "Home", new {token = file.Token, email = User.Identity.Name}))"/>
+                <a href="@Url.Action("Remove","Home", new {fileName = file.Name})"><img src="svg/trash.svg" alt="delete" title="delete" style="margin-left: 1rem" /></a>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div id="edit_info" class="flex_center" style="display: none;">
+          <form asp-action="EditInfo" asp-controller="Home" method="post">
+            <img onclick="editInfo()" src="svg/remove.svg" alt="remove" />
+            <h2>Edit Info</h2>
+            <label>
+              Password:
+              <br>
+              <input
+                asp-for="EditInfoModel.Password"
+                type="password"
+                placeholder="Enter your Password..."
+              />
+              <span asp-validation-for="EditInfoModel.Password" class="text-danger"></span>
+        </label>
+            <br />
+            <input type="submit" />
+          </form>
+        </div>
+    </main>
+    <footer id="footer">
+      <img src="svg/dash_solid_blue.svg">
+      <img src="svg/blue-hex.svg">
+      <div id="footer_container" class="flex align_center justify_between wfull max_width margin_auto">
+        <p class="font_12">
+          &copy 2023-2024 FilesUp, <br />All Right Reserved
+        </p>
+        <a href="index.html" class="link"> FilesUp </a>
+        <div class="link flex flex_column">
+          <a href="#" class="normal_link">privacy policy</a>
+          <a href="#" class="normal_link">terms and conditions</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="scripts/nav.js"></script>
+  <script src="scripts/upload.js"></script>
+  <script src="scripts/editInfo.js"></script>
+</body>
+</html>
