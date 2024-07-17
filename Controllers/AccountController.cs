@@ -138,9 +138,9 @@ public class AccountController : Controller
         if (user == null)
         {
             ModelState.AddModelError("Email", "This user does not exist.");
-            return View();
+            ViewBag.ErrorMessage = "This user does not exist.";
+            return View("UserNotFound");
         }
-
         ForgotPasswordDto fpd = new()
         {
             Email = user.Email,
