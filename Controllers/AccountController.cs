@@ -127,6 +127,12 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public async Task<IActionResult> Validate(string token)
+    {
+        ViewBag.IsActive = await _userRepository.ActiveUser(token);
+        return View();
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ForgotPassword(LoginViewDto login)

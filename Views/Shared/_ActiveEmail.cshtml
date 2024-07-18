@@ -1,0 +1,9 @@
+@model FileUploader.Models.Dt.SuccessfullRegisterDto
+
+<div style="direction: rtl; padding: 20px">
+    <h2>Dear, @Model.Email</h2>
+    <p>To confirm your registration click on this link</p>
+    <p>
+        <a href="@Model.VerificationUrl">Confirm Account</a>
+    </p>
+</div>
